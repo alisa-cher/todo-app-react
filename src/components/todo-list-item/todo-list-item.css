@@ -1,0 +1,31 @@
+.todo-list-item {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+.todo-list-item-label {
+    padding: 7px 10px 5px;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    flex-grow: 1;
+}
+
+.list-group__item:last-child .todo-list-item-label {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: -1px;
+}
+
+.todo-list-item__button {
+    position: relative;
+    z-index: 0;
+    margin-left: -1px;
+    margin-bottom: -1px;
+}
+
+.todo-list-item__button:hover,
+.todo-list-item__button:focus {
+    z-index: 1;
+}

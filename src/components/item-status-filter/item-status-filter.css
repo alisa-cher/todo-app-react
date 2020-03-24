@@ -1,0 +1,14 @@
+.item-status-filter {
+    width: 50%;
+    display: flex;
+}
+
+.item-status-filter__button {
+    margin: 0 5px;
+    padding: 0;
+    width: 33.333%;
+}
+
+.item-status-filter__button:last-child {
+    margin-right: 0;
+}

@@ -1,0 +1,14 @@
+.site-wrapper {
+    max-width: 600px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.top-panel {
+    display: flex;
+}
+
+.top-panel__search {
+    width: 50%;
+    height: auto;
+}
