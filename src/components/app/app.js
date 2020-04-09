@@ -15,6 +15,16 @@ export default class App extends Component {
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.onLabelClick = this.onLabelClick.bind(this);
+    this.onImportantButtonClick = this.onImportantButtonClick.bind(this);
+  }
+
+  countDoneItems(items) {
+    return items.filter((item) => item.done).length;
+  }
+
+  countTodoItems(items) {
+    return items.length - this.countDoneItems(items);
   }
 
   deleteItem(id) {
@@ -48,16 +58,40 @@ export default class App extends Component {
     });
   }
 
+  toggleProperty(array, id, propName) {
+    const index = array.findIndex((el) => el.id === id);
+    const newArray = [...array];
+    const item = newArray[index];
+    item[propName] = !item[propName];
+
+    return {
+      todoData: newArray
+    };
+  }
+
+  onLabelClick(id) {
+    this.setState(({todoData}) => this.toggleProperty(todoData, id, "done"));
+  }
+
+  onImportantButtonClick(id) {
+    this.setState(({todoData}) => this.toggleProperty(todoData, id, "important"));
+  }
+
   render() {
+    const {todoData} = this.state;
     return (
       <div className={"uk-container site-wrapper"}>
-        <AppHeader/>
+        <AppHeader todo={this.countTodoItems(todoData)}
+                   done={this.countDoneItems(todoData)}/>
         <div className="top-panel">
-          <SearchPanel className={"top-panel__search"}/>
+          <SearchPanel
+            className={"top-panel__search"}/>
           <ItemStatusFilter/>
         </div>
-        <TodoList todos={this.state.todoData}
-                  onDeleted={this.deleteItem}/>
+        <TodoList todos={todoData}
+                  onDeleted={this.deleteItem}
+                  onMarkedDone={this.onLabelClick}
+                  onMarkedImportant={this.onImportantButtonClick}/>
         <ItemAddForm onItemAdded={this.addItem}/>
       </div>
     );

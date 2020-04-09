@@ -4,7 +4,7 @@ import TodoListItem from "../todo-list-item/todo-list-item";
 import "./todo-list.css";
 
 const TodoList = (props) => {
-  const {todos, onDeleted} = props;
+  const {todos, onDeleted, onMarkedDone, onMarkedImportant} = props;
 
   const elements = todos.map((item) => {
     const {id, ...itemProps} = item;
@@ -13,6 +13,8 @@ const TodoList = (props) => {
         <TodoListItem
           {...itemProps}
           onDeleted={() => onDeleted(id)}
+          onMarkedDone={() => onMarkedDone(id)}
+          onMarkedImportant={() => onMarkedImportant(id)}
         />
       </li>
     );

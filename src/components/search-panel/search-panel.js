@@ -1,7 +1,10 @@
-import React from "react";
+import React, {Component} from "react";
 
-const SearchPanel = (props) => {
-  return <input className={`uk-input search-panel ${props.className}`} placeholder="Type something here"/>;
-};
-
-export default SearchPanel;
+export default class SearchPanel extends Component {
+  render() {
+    return(
+      <input className={`uk-input search-panel ${this.props.className}`}
+             placeholder="Type something here"/>
+    )
+  }
+}
