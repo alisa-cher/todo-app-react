@@ -11,12 +11,20 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      todoData: TODO_DATA
+      todoData: TODO_DATA,
+      searchKey: ""
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.onLabelClick = this.onLabelClick.bind(this);
     this.onImportantButtonClick = this.onImportantButtonClick.bind(this);
+    this.onSearchChanged = this.onSearchChanged.bind(this);
+  }
+
+  onSearchChanged(value){
+    this.setState({
+      searchKey: value
+    });
   }
 
   countDoneItems(items) {
@@ -78,17 +86,21 @@ export default class App extends Component {
   }
 
   render() {
-    const {todoData} = this.state;
+    const {todoData, searchKey} = this.state;
+    const visibleItems = todoData.filter((item) => item.label.toUpperCase().includes(this.state.searchKey.toUpperCase()));
+
     return (
       <div className={"uk-container site-wrapper"}>
         <AppHeader todo={this.countTodoItems(todoData)}
                    done={this.countDoneItems(todoData)}/>
         <div className="top-panel">
           <SearchPanel
-            className={"top-panel__search"}/>
+            className={"top-panel__search"}
+            onChanged={this.onSearchChanged}
+            searchKey={searchKey}/>
           <ItemStatusFilter/>
         </div>
-        <TodoList todos={todoData}
+        <TodoList todos={visibleItems}
                   onDeleted={this.deleteItem}
                   onMarkedDone={this.onLabelClick}
                   onMarkedImportant={this.onImportantButtonClick}/>
