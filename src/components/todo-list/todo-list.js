@@ -4,7 +4,7 @@ import TodoListItem from "../todo-list-item/todo-list-item";
 import "./todo-list.css";
 
 const TodoList = (props) => {
-  const {todos, onDeleted, onMarkedDone, onMarkedImportant} = props;
+  const {todos, onDeleted, onMarkedDone, onMarkedImportant, isFiltered} = props;
 
   const elements = todos.map((item) => {
     const {id, ...itemProps} = item;
@@ -22,6 +22,8 @@ const TodoList = (props) => {
 
   return (
     <ul className={"list-group todo-list"}>
+      {elements.length === 0 && isFiltered && <div>There is no items corresponding to your search.</div>}
+      {elements.length === 0 && !isFiltered && <div>Congratulations! You've done everything.</div>}
       {elements}
     </ul>
   )

@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import './item-status-filter.css';
 
+const buttons = ["All", "Active", "Done"];
+
 export default class ItemStatusFilter extends Component {
-  render()  {
+  render() {
     const {activeFilter, onStatusFilterClicked} = this.props;
     return (
       <div className="item-status-filter">
-        <button type="button"
-                className={`uk-button item-status-filter__button ${activeFilter === "All" ? "uk-button-primary" : "uk-button-default"}`}
-                onClick={(evt) => onStatusFilterClicked(evt.target.innerHTML)}>All</button>
-        <button type="button"
-                className={`uk-button item-status-filter__button ${activeFilter === "Active" ? "uk-button-primary" : "uk-button-default"}`}
-                onClick={(evt) => onStatusFilterClicked(evt.target.innerHTML)}>Active</button>
-        <button type="button"
-                className={`uk-button item-status-filter__button ${activeFilter === "Done" ? "uk-button-primary" : "uk-button-default"}`}
-                onClick={(evt) => onStatusFilterClicked(evt.target.innerHTML)}>Done</button>
+        {buttons.map((button) =>
+          <button type="button"
+                  key={button}
+                  className={`uk-button item-status-filter__button ${activeFilter === button ? "uk-button-primary" : "uk-button-default"}`}
+                  onClick={(evt) => onStatusFilterClicked(evt.target.innerHTML)}>{button}</button>
+        )}
       </div>
     );
   };

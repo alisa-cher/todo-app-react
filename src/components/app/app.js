@@ -74,20 +74,22 @@ export default class App extends Component {
   }
 
   addItem(text) {
-    const newEntry = {
-      label: text,
-      id: this.state.todoData.length + 1,
-      important: false
-    };
-    this.setState(({todoData}) => {
-      const newArray = [
-        ...todoData,
-        newEntry
-      ];
-      return {
-        todoData: newArray
-      }
-    });
+    if (text) {
+      const newEntry = {
+        label: text,
+        id: this.state.todoData.length + 1,
+        important: false
+      };
+      this.setState(({todoData}) => {
+        const newArray = [
+          ...todoData,
+          newEntry
+        ];
+        return {
+          todoData: newArray
+        }
+      });
+    }
   }
 
   toggleProperty(array, id, propName) {
@@ -112,6 +114,7 @@ export default class App extends Component {
   render() {
     const {todoData, searchKey, activeFilter} = this.state;
     const visibleItems = this.filterItemsBySearchKey(this.filterItemsByStatus(todoData, activeFilter), searchKey);
+    const isDataFiltered = activeFilter !== "All" || searchKey;
 
     return (
       <div className={"uk-container site-wrapper"}>
@@ -126,6 +129,7 @@ export default class App extends Component {
                             onStatusFilterClicked={this.onStatusFilterClicked}/>
         </div>
         <TodoList todos={visibleItems}
+                  isFiltered={isDataFiltered}
                   onDeleted={this.deleteItem}
                   onMarkedDone={this.onLabelClick}
                   onMarkedImportant={this.onImportantButtonClick}/>
