@@ -12,19 +12,43 @@ export default class App extends Component {
     super();
     this.state = {
       todoData: TODO_DATA,
-      searchKey: ""
+      searchKey: "",
+      activeFilter: "All"
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.onLabelClick = this.onLabelClick.bind(this);
     this.onImportantButtonClick = this.onImportantButtonClick.bind(this);
     this.onSearchChanged = this.onSearchChanged.bind(this);
+    this.onStatusFilterClicked = this.onStatusFilterClicked.bind(this);
   }
 
-  onSearchChanged(value){
+  onStatusFilterClicked(value) {
+    this.setState({
+      activeFilter: value
+    });
+  }
+
+  onSearchChanged(value) {
     this.setState({
       searchKey: value
     });
+  }
+
+  filterItemsByStatus(items, status) {
+    switch (status) {
+      case "Active":
+        return items.filter((item) => !item.done);
+      case "Done":
+        return items.filter((item) => item.done);
+      default:
+        return items;
+    }
+  }
+
+
+  filterItemsBySearchKey(items, searchKey) {
+    return items.filter((item) => item.label.toUpperCase().includes(searchKey.toUpperCase()))
   }
 
   countDoneItems(items) {
@@ -86,8 +110,8 @@ export default class App extends Component {
   }
 
   render() {
-    const {todoData, searchKey} = this.state;
-    const visibleItems = todoData.filter((item) => item.label.toUpperCase().includes(this.state.searchKey.toUpperCase()));
+    const {todoData, searchKey, activeFilter} = this.state;
+    const visibleItems = this.filterItemsBySearchKey(this.filterItemsByStatus(todoData, activeFilter), searchKey);
 
     return (
       <div className={"uk-container site-wrapper"}>
@@ -98,7 +122,8 @@ export default class App extends Component {
             className={"top-panel__search"}
             onChanged={this.onSearchChanged}
             searchKey={searchKey}/>
-          <ItemStatusFilter/>
+          <ItemStatusFilter activeFilter={activeFilter}
+                            onStatusFilterClicked={this.onStatusFilterClicked}/>
         </div>
         <TodoList todos={visibleItems}
                   onDeleted={this.deleteItem}
